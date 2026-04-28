@@ -1,0 +1,537 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="description" content="Quantum Kernel Advantage over Classical Collapse in Medical Foundation Model Embeddings">
+  <meta property="og:title" content="Quantum Kernel Advantage over Classical Collapse in Medical Foundation Model Embeddings"/>
+  <meta property="og:description" content="We investigate whether quantum kernel methods can outperform classical kernels on binary insurance classification using MIMIC-CXR chest radiographs, where class imbalance causes standard linear classifiers to collapse."/>
+  <meta property="og:url" content="https://sebasmos.github.io/qml-medimage/"/>
+  <meta name="twitter:title" content="Quantum Kernel Advantage over Classical Collapse in Medical Foundation Model Embeddings">
+  <meta name="twitter:description" content="QSVM wins minority-class F1 in all 18 configurations over classical linear SVM on MIMIC-CXR chest radiographs.">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="keywords" content="quantum kernel, quantum SVM, QSVM, medical imaging, foundation models, MIMIC-CXR, class imbalance, quantum advantage, quantum machine learning">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>Quantum Kernel Advantage over Classical Collapse in Medical Foundation Model Embeddings</title>
+
+  <link href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro" rel="stylesheet">
+  <link rel="stylesheet" href="static/css/bulma.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="static/css/index.css">
+
+  <script>
+    // Copy BibTeX helper
+    function copyBibtex() {
+      const text = document.getElementById('bibtex-content').innerText;
+      navigator.clipboard.writeText(text).then(function() {
+        const btn = document.getElementById('copy-btn');
+        btn.classList.add('copied');
+        btn.textContent = 'Copied!';
+        setTimeout(function() {
+          btn.classList.remove('copied');
+          btn.innerHTML = '<i class="fas fa-copy"></i> Copy BibTeX';
+        }, 2000);
+      });
+    }
+
+    // Scroll-to-top button
+    window.addEventListener('scroll', function() {
+      const btn = document.getElementById('scrollTop');
+      if (window.scrollY > 300) {
+        btn.classList.add('visible');
+      } else {
+        btn.classList.remove('visible');
+      }
+    });
+
+    function scrollToTop() {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+  </script>
+</head>
+<body>
+
+<!-- ===================== HERO / TITLE ===================== -->
+<section class="hero">
+  <div class="hero-body">
+    <div class="container is-max-desktop">
+      <div class="columns is-centered">
+        <div class="column has-text-centered">
+
+          <h1 class="title is-1 publication-title">
+            Quantum Kernel Advantage over Classical Collapse in Medical Foundation Model Embeddings
+          </h1>
+
+          <div class="is-size-5 publication-authors">
+            <span class="author-block">
+              <a href="https://orcid.org/0000-0003-0579-6178" target="_blank" title="ORCID">Sebastian A. Cajas&nbsp;Ord&oacute;&ntilde;ez</a><sup>1*</sup>,
+            </span>
+            <span class="author-block">
+              <a href="https://orcid.org/0000-0002-5250-4636" target="_blank" title="ORCID">Felipe Ocampo&nbsp;Osorio</a><sup>1,2</sup>,
+            </span>
+            <span class="author-block">
+              <a href="https://orcid.org/0000-0002-8968-591X" target="_blank" title="ORCID">Dax Enshan&nbsp;Koh</a><sup>3,4,5</sup>,
+            </span>
+            <span class="author-block">
+              <a href="https://orcid.org/0009-0005-0479-7437" target="_blank" title="ORCID">Rafi Al&nbsp;Attrach</a><sup>1</sup>,
+            </span>
+            <span class="author-block">
+              <a href="https://orcid.org/0000-0002-9651-7156" target="_blank" title="ORCID">Aldo Marzullo</a><sup>6</sup>,
+            </span>
+            <span class="author-block">
+              <a href="https://orcid.org/0000-0002-7881-8246" target="_blank" title="ORCID">Ariel Guerra-Adames</a><sup>7,8</sup>,
+            </span>
+            <span class="author-block">
+              <a href="https://orcid.org/0000-0003-1406-3064" target="_blank" title="ORCID">J.&nbsp;Alejandro Andrade</a><sup>9</sup>,
+            </span>
+            <span class="author-block">
+              <a href="https://orcid.org/0000-0001-7563-0961" target="_blank" title="ORCID">Siong Thye&nbsp;Goh</a><sup>4,10</sup>,
+            </span>
+            <span class="author-block">
+              <a href="https://orcid.org/0009-0004-7481-0185" target="_blank" title="ORCID">Chi-Yu&nbsp;Chen</a><sup>11</sup>,
+            </span>
+            <span class="author-block">
+              <a href="https://orcid.org/0000-0002-4386-957X" target="_blank" title="ORCID">Rahul Gorijavolu</a><sup>1,12,13,14</sup>,
+            </span>
+            <span class="author-block">
+              <a href="https://orcid.org/0009-0006-8132-2686" target="_blank" title="ORCID">Xue Yang</a><sup>15,3,16</sup>,
+            </span>
+            <span class="author-block">
+              <a href="https://orcid.org/0000-0002-2855-0798" target="_blank" title="ORCID">Noah Dane&nbsp;Hebdon</a><sup>3</sup>,
+            </span>
+            <span class="author-block">
+              <a href="https://orcid.org/0000-0001-6712-6626" target="_blank" title="ORCID">Leo Anthony&nbsp;Celi</a><sup>1,17,18</sup>
+            </span>
+          </div>
+
+          <div class="is-size-6 publication-authors" style="margin-top: 0.75rem; line-height: 1.7;">
+            <span class="author-block">
+              <sup>1</sup>MIT Critical Data, Massachusetts Institute of Technology, Cambridge, MA, USA &nbsp;
+              <sup>2</sup>Clinical Research Center, Artificial Intelligence Unit, Fundaci&oacute;n Valle del Lili, Cali, Valle del Cauca, Colombia &nbsp;
+              <sup>3</sup>Quantum Innovation Centre (Q.InC), Agency for Science, Technology and Research (A*STAR), Singapore 138634 &nbsp;
+              <sup>4</sup>Institute of High Performance Computing (IHPC), Agency for Science, Technology and Research (A*STAR), Singapore 138632<br>
+              <sup>5</sup>Science, Mathematics and Technology Cluster, Singapore University of Technology and Design, Singapore 487372 &nbsp;
+              <sup>6</sup>Department of Electronics, Information and Bioengineering, Politecnico di Milano, Milan, Italy &nbsp;
+              <sup>7</sup>Bordeaux Population Health Research Center, Inserm U1219, Universit&eacute; de Bordeaux, F-33000 Bordeaux, France &nbsp;
+              <sup>8</sup>Inria Bordeaux, Universit&eacute; de Bordeaux, F-33000 Bordeaux, France<br>
+              <sup>9</sup>Universidad del Cauca, Popay&aacute;n, Colombia &nbsp;
+              <sup>10</sup>Singapore Management University, 81 Victoria St, Singapore 188065 &nbsp;
+              <sup>11</sup>National Taiwan University Hospital &nbsp;
+              <sup>12</sup>School of Medicine, Johns Hopkins University, Baltimore, MD, USA<br>
+              <sup>13</sup>Department of Biomedical Engineering, Johns Hopkins University, Baltimore, MD, USA &nbsp;
+              <sup>14</sup>AI for Responsible, Generalizable, and Open Surgical (ARGOS) Research Group, Baltimore, MD, USA &nbsp;
+              <sup>15</sup>School of Information Engineering, Shanghai Maritime University, Shanghai 201306, China<br>
+              <sup>16</sup>Research Center of Intelligent Information Processing and Quantum Intelligent Computing, Shanghai 201306, China &nbsp;
+              <sup>17</sup>Laboratory for Computational Physiology, MIT, Cambridge, MA, USA &nbsp;
+              <sup>18</sup>Department of Medicine, Beth Israel Deaconess Medical Center, Boston, MA, USA
+            </span>
+            <br>
+            <span class="eql-cntrb"><sup>*</sup>Corresponding Author</span>
+          </div>
+
+          <!-- Links -->
+          <div class="column has-text-centered" style="margin-top: 1rem;">
+            <div class="publication-links">
+
+              <span class="link-block">
+                <a href="https://arxiv.org/pdf/2604.24597" target="_blank"
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon"><i class="fas fa-file-pdf"></i></span>
+                  <span>PDF</span>
+                </a>
+              </span>
+
+              <span class="link-block">
+                <a href="https://arxiv.org/abs/2604.24597" target="_blank"
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon"><i class="ai ai-arxiv"></i></span>
+                  <span>arXiv</span>
+                </a>
+              </span>
+
+              <span class="link-block">
+                <a href="https://github.com/sebasmos/qml-medimage" target="_blank"
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon"><i class="fab fa-github"></i></span>
+                  <span>Code</span>
+                </a>
+              </span>
+
+              <span class="link-block">
+                <a href="https://huggingface.co/datasets/MITCriticalData/qml-mimic-cxr-embeddings" target="_blank"
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                    <img src="https://huggingface.co/front/assets/huggingface_logo-noborder.svg"
+                         alt="Hugging Face" style="height: 1em; vertical-align: middle;">
+                  </span>
+                  <span>Dataset</span>
+                </a>
+              </span>
+
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ===================== AUDIO SUMMARY ===================== -->
+<section class="section" style="padding-top: 1.5rem; padding-bottom: 0.5rem;">
+  <div class="container is-max-desktop">
+    <div class="columns is-centered">
+      <div class="column is-four-fifths has-text-centered">
+        <p style="font-size: 0.95rem; color: var(--text-secondary); margin-bottom: 0.6rem;">
+          <span style="font-weight: 600; color: var(--text-primary);">&#127911; Paper Summary</span>
+          &nbsp;&mdash;&nbsp; listen to a 5-minute audio overview
+        </p>
+        <audio controls style="width: 100%; border-radius: 8px;">
+          <source src="paper_summary.mp3" type="audio/mpeg">
+          Your browser does not support the audio element.
+        </audio>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ===================== KEY FINDINGS BANNER ===================== -->
+<section class="section" style="padding-top: 2rem; padding-bottom: 2rem;">
+  <div class="container is-max-desktop">
+    <div class="columns is-centered">
+      <div class="column is-four-fifths">
+        <div class="results-highlight">
+          <h3>Key Results</h3>
+          <ul>
+            <li>18/18 Tier-1 wins: QSVM beats untuned linear SVM on minority-class F1 across all configurations (17 at p&lt;0.001, 1 at p&lt;0.01)</li>
+            <li>At q=11, MedSigLIP-448: mean F1 = 0.343 &plusmn; 0.170 vs classical F1 = 0.050 &plusmn; 0.159 (&Delta;F1 = +0.293, p&lt;0.001)</li>
+            <li>7/7 Tier-2 wins: QSVM beats C-tuned RBF SVM (mean gain +0.068)</li>
+            <li>Quantum kernel effective rank reaches 69.80 at q=11, versus linear kernel rank of exactly 11</li>
+            <li>Classical collapse is C-invariant: persists regardless of regularization strength</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ===================== ABSTRACT ===================== -->
+<section class="section hero is-light">
+  <div class="container is-max-desktop">
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-four-fifths">
+        <h2 class="title is-3">Abstract</h2>
+        <div class="content has-text-justified">
+          <p>
+            We investigate whether quantum kernel methods can outperform classical kernels on binary insurance
+            classification using MIMIC-CXR chest radiographs, where class imbalance causes standard linear
+            classifiers to collapse. We evaluate quantum support vector machines (QSVM) with frozen embeddings
+            from three medical foundation models (MedSigLIP-448, RAD-DINO, ViT-patch32) under noiseless
+            simulation, using a two-tier fair comparison framework.
+          </p>
+          <p>
+            At Tier&nbsp;1 (untuned QSVM vs. untuned linear SVM, C=1), QSVM wins minority-class F1 in all
+            18&nbsp;configurations (17 at p&lt;0.001, 1 at p&lt;0.01). The classical linear kernel collapses to
+            F1=0 on 90&ndash;100% of seeds at every qubit count, while QSVM maintains recall. At q=11,
+            QSVM achieves mean F1=0.343&plusmn;0.170 versus classical F1=0.050&plusmn;0.159
+            (&Delta;F1=+0.293, p&lt;0.001). At Tier&nbsp;2 (untuned QSVM vs. C-tuned RBF SVM), QSVM wins
+            all 7&nbsp;configurations (mean gain +0.068).
+          </p>
+          <p>
+            Eigenspectrum analysis shows quantum kernel effective rank reaches 69.80 at q=11, far exceeding
+            linear kernel rank of exactly q=11. These results provide evidence of quantum kernel advantage on
+            a real medical imaging task. The identified mechanism &mdash; kernel rank collapse in classical
+            methods under class imbalance &mdash; gives a concrete basis for predicting where quantum kernels
+            hold an edge.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ===================== FIGURES ===================== -->
+<section class="section hero">
+  <div class="container is-max-desktop">
+    <div class="columns is-centered has-text-centered">
+      <div class="column">
+        <h2 class="title is-3">Results</h2>
+      </div>
+    </div>
+
+    <!-- F1 vs qubit count -->
+    <div class="columns is-centered">
+      <div class="column is-four-fifths">
+        <div class="figure-card">
+          <img src="figures/qubit_scaling_curve.png"
+               alt="F1 score vs qubit count across medical foundation models">
+          <p class="figure-caption">
+            <strong>F1 score vs. qubit count across models.</strong>
+            QSVM minority-class F1 scales with qubit count across MedSigLIP-448, RAD-DINO, and
+            ViT-patch32 embeddings, while the classical linear SVM remains collapsed near zero.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Bar comparison -->
+    <div class="columns is-centered">
+      <div class="column is-four-fifths">
+        <div class="figure-card">
+          <img src="figures/bar_comparison_all.png"
+               alt="Summary bar chart comparing QSVM and classical SVM across all configurations">
+          <p class="figure-caption">
+            <strong>Summary comparison across all 18 Tier-1 configurations.</strong>
+            QSVM (green) consistently outperforms the classical linear SVM (gray) on minority-class F1.
+            The classical kernel collapses to F1=0 on 90&ndash;100% of seeds at every qubit count.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Eigenspectrum -->
+    <div class="columns is-centered">
+      <div class="column is-four-fifths">
+        <div class="figure-card">
+          <img src="figures/eigenspectrum_medsiglip_448_q11.png"
+               alt="Quantum kernel eigenspectrum at q=11 for MedSigLIP-448">
+          <p class="figure-caption">
+            <strong>Quantum kernel eigenspectrum at q=11 (MedSigLIP-448).</strong>
+            The quantum kernel achieves an effective rank of 69.80, spreading eigenvalue mass across
+            many dimensions. The linear kernel's rank equals exactly q=11 &mdash; insufficient to
+            resolve the minority class under severe imbalance.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Quantum vs linear eigenspectrum comparison -->
+    <div class="columns is-centered">
+      <div class="column is-four-fifths">
+        <div class="figure-card">
+          <img src="figures/quantum_vs_linear_eigenspectrum_q4q6.png"
+               alt="Quantum vs linear eigenspectrum comparison at q=4 and q=6">
+          <p class="figure-caption">
+            <strong>Quantum vs. linear eigenspectrum at q=4 and q=6.</strong>
+            Across qubit counts, the quantum kernel maintains a richer eigenspectrum than the
+            linear kernel, which concentrates its rank budget and fails on imbalanced data.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Kernel heatmaps q=11 and q=16 -->
+    <div class="columns is-centered figure-grid">
+      <div class="column">
+        <div class="figure-card">
+          <img src="figures/kernel_heatmap_medsiglip-448_q11.png"
+               alt="Quantum kernel matrix heatmap at q=11 for MedSigLIP-448">
+          <p class="figure-caption">
+            <strong>Quantum kernel matrix, q=11 (MedSigLIP-448).</strong>
+            Rich off-diagonal block structure reflects class boundaries preserved by the quantum feature map.
+            Effective rank = 43.04 (multi-seed mean 69.80).
+          </p>
+        </div>
+      </div>
+      <div class="column">
+        <div class="figure-card">
+          <img src="figures/kernel_heatmap_medsiglip-448_q16.png"
+               alt="Quantum kernel matrix heatmap at q=16 for MedSigLIP-448">
+          <p class="figure-caption">
+            <strong>Quantum kernel matrix, q=16 (MedSigLIP-448).</strong>
+            At q=16, swap-test fidelity concentration causes off-diagonal entries to converge toward a
+            single value, consistent with the onset of concentration collapse.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Kernel heatmaps RAD-DINO and ViT -->
+    <div class="columns is-centered figure-grid">
+      <div class="column">
+        <div class="figure-card">
+          <img src="figures/kernel_heatmap_rad-dino_q4.png"
+               alt="Quantum kernel heatmap RAD-DINO q=4">
+          <p class="figure-caption"><strong>Kernel heatmap, RAD-DINO q=4.</strong></p>
+        </div>
+      </div>
+      <div class="column">
+        <div class="figure-card">
+          <img src="figures/kernel_heatmap_rad-dino_q6.png"
+               alt="Quantum kernel heatmap RAD-DINO q=6">
+          <p class="figure-caption"><strong>Kernel heatmap, RAD-DINO q=6.</strong></p>
+        </div>
+      </div>
+      <div class="column">
+        <div class="figure-card">
+          <img src="figures/kernel_heatmap_vit-patch32-cls_q4.png"
+               alt="Quantum kernel heatmap ViT-patch32 q=4">
+          <p class="figure-caption"><strong>Kernel heatmap, ViT-patch32 q=4.</strong></p>
+        </div>
+      </div>
+      <div class="column">
+        <div class="figure-card">
+          <img src="figures/kernel_heatmap_vit-patch32-cls_q6.png"
+               alt="Quantum kernel heatmap ViT-patch32 q=6">
+          <p class="figure-caption"><strong>Kernel heatmap, ViT-patch32 q=6.</strong></p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Eigenspectrum q=16 -->
+    <div class="columns is-centered">
+      <div class="column is-four-fifths">
+        <div class="figure-card">
+          <img src="figures/eigenspectrum_medsiglip_448_q16.png"
+               alt="Quantum kernel eigenspectrum at q=16 for MedSigLIP-448">
+          <p class="figure-caption">
+            <strong>Quantum kernel eigenspectrum at q=16 (MedSigLIP-448).</strong>
+            At q=16, effective rank rises to 92.13 yet multi-seed mean F1 remains 0.377 (a Tier-1 win),
+            confirming that concentration collapse at q=16 is seed-dependent rather than universal.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- PCA scatter plots — q=4 row -->
+    <div class="columns is-centered figure-grid">
+      <div class="column">
+        <div class="figure-card">
+          <img src="figures/scatter_medsiglip-448_q4.png"
+               alt="PCA scatter MedSigLIP-448 q=4">
+          <p class="figure-caption"><strong>PCA scatter, MedSigLIP-448 q=4.</strong></p>
+        </div>
+      </div>
+      <div class="column">
+        <div class="figure-card">
+          <img src="figures/scatter_rad-dino_q4.png"
+               alt="PCA scatter RAD-DINO q=4">
+          <p class="figure-caption"><strong>PCA scatter, RAD-DINO q=4.</strong></p>
+        </div>
+      </div>
+      <div class="column">
+        <div class="figure-card">
+          <img src="figures/scatter_vit-patch32-cls_q4.png"
+               alt="PCA scatter ViT-patch32 q=4">
+          <p class="figure-caption"><strong>PCA scatter, ViT-patch32 q=4.</strong></p>
+        </div>
+      </div>
+    </div>
+
+    <!-- PCA scatter plots — q=6 row -->
+    <div class="columns is-centered figure-grid">
+      <div class="column">
+        <div class="figure-card">
+          <img src="figures/scatter_medsiglip-448_q6.png"
+               alt="PCA scatter MedSigLIP-448 q=6">
+          <p class="figure-caption"><strong>PCA scatter, MedSigLIP-448 q=6.</strong></p>
+        </div>
+      </div>
+      <div class="column">
+        <div class="figure-card">
+          <img src="figures/scatter_rad-dino_q6.png"
+               alt="PCA scatter RAD-DINO q=6">
+          <p class="figure-caption"><strong>PCA scatter, RAD-DINO q=6.</strong></p>
+        </div>
+      </div>
+      <div class="column">
+        <div class="figure-card">
+          <img src="figures/scatter_vit-patch32-cls_q6.png"
+               alt="PCA scatter ViT-patch32 q=6">
+          <p class="figure-caption"><strong>PCA scatter, ViT-patch32 q=6.</strong></p>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+
+<!-- ===================== METHOD OVERVIEW ===================== -->
+<section class="section hero is-light">
+  <div class="container is-max-desktop">
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-four-fifths">
+        <h2 class="title is-3">Approach</h2>
+        <div class="content has-text-justified">
+          <p>
+            Frozen embeddings from three medical foundation models are extracted from MIMIC-CXR chest
+            radiographs and compressed via PCA to q&nbsp;dimensions, matching the qubit count. A
+            parameterized quantum circuit encodes each compressed embedding as a quantum state; the
+            inner product of pairs of states defines the quantum kernel matrix. A classical SVM then
+            trains on this kernel.
+          </p>
+          <p>
+            The two-tier comparison framework separates hyperparameter effects from kernel effects.
+            Tier&nbsp;1 holds the SVM regularization constant (C=1) for both QSVM and linear SVM,
+            isolating the kernel as the only varying factor. Tier&nbsp;2 allows the classical RBF SVM
+            to tune C via cross-validation, giving it an intentional advantage while keeping QSVM
+            untuned &mdash; a conservative test that QSVM still passes in all 7&nbsp;evaluated cases.
+          </p>
+          <p>
+            The dataset is a binary insurance classification task drawn from MIMIC-CXR, with severe
+            class imbalance (roughly 9:1). This imbalance is the mechanism that causes classical linear
+            kernels to collapse: their effective rank is bounded by q, the embedding dimension, which
+            is too low to build a separating hyperplane that recovers the minority class.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ===================== CITATION ===================== -->
+<section class="section" id="citation">
+  <div class="container is-max-desktop">
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-four-fifths">
+        <h2 class="title is-3">Citation</h2>
+        <div class="content has-text-left">
+          <button class="copy-bibtex-btn" id="copy-btn" onclick="copyBibtex()">
+            <i class="fas fa-copy"></i> Copy BibTeX
+          </button>
+          <pre style="white-space:pre-wrap;word-break:break-word;"><code id="bibtex-content">@article{cajas2026qml,
+  title  = {Quantum Kernel Advantage over Classical Collapse in Medical Foundation Model Embeddings},
+  author = {Cajas Ord{\'o}{\~n}ez, Sebasti{\'a}n A. and Ocampo Osorio, Felipe and Koh, Dax Enshan and Al Attrach, Rafi and Marzullo, Aldo and Guerra-Adames, Ariel and Andrade, J. Alejandro and Goh, Siong Thye and Chen, Chi-Yu and Gorijavolu, Rahul and Yang, Xue and Hebdon, Noah Dane and Celi, Leo Anthony},
+  journal = {arXiv preprint arXiv:2604.24597},
+  year    = {2026},
+  url     = {https://arxiv.org/abs/2604.24597}
+}</code></pre>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ===================== FOOTER ===================== -->
+<footer class="footer">
+  <div class="container">
+    <div class="columns is-centered">
+      <div class="column is-8 has-text-centered">
+        <div class="content">
+          <p>
+            This work is licensed under
+            <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank">CC BY 4.0</a>.
+            Paper: <a href="https://arxiv.org/abs/2604.24597" target="_blank">arXiv:2604.24597</a>.
+            Code: <a href="https://github.com/sebasmos/qml-medimage" target="_blank">github.com/sebasmos/qml-medimage</a>.
+            Dataset: <a href="https://huggingface.co/datasets/MITCriticalData/qml-mimic-cxr-embeddings" target="_blank">MITCriticalData/qml-mimic-cxr-embeddings</a>.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<button class="scroll-to-top" id="scrollTop" onclick="scrollToTop()" aria-label="Scroll to top">
+  <i class="fas fa-arrow-up"></i>
+</button>
+
+</body>
+</html>

@@ -1,0 +1,88 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+*.egg-info/
+*.egg
+dist/
+build/
+eggs/
+.eggs/
+
+# Virtual environments
+.venv/
+venv/
+ENV/
+
+# Jupyter Notebook
+.ipynb_checkpoints/
+*.ipynb_checkpoints
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Claude Code
+.claude/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Data files (large)
+*.parquet
+*.npz
+*.pkl
+*.pickle
+*.h5
+*.hdf5
+
+# Large kernel matrix files (saved by --save_kernels; analyzed results in tests/analysis/ are kept)
+tests/save_kernels/**/*.npy
+
+# Documents
+*.docx
+*.doc
+
+# LaTeX build artifacts
+*.aux
+*.bbl
+*.blg
+*.fls
+*.fdb_latexmk
+*.synctex.gz
+*.out
+*.toc
+*.lof
+*.lot
+*.log
+
+# Package manager
+uv.lock
+
+# Experiments/outputs
+experiments/
+outputs/
+logs/
+*.log
+
+# Credentials
+.env
+*.env
+credentials.json
+
+# SLURM completion markers and dotfiles
+slurm/**/.completed*
+slurm/**/.*
+
+# Temporary exclusions (to add later)
+Results-temp
+results/
+results-tocheck/
+results-QSVM/
+results-gender-all/
+results-insurance-all/
